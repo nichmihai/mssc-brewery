@@ -1,5 +1,6 @@
 package nich.mihai.msscbrewery.web.controller;
 
+import nich.mihai.msscbrewery.services.BeerService;
 import nich.mihai.msscbrewery.web.model.BeerDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,15 @@ import java.util.UUID;
 @RequestMapping("/api/v1/beer")
 public class BeerController {
 
-    @GetMapping("/{beerid}")
-    public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId) {
-        return new ResponseEntity<>(BeerDto.builder()
-                .id(UUID.randomUUID())
-                .upc(123456L)
-                .beerName("Scheinerbock")
-                .build(), HttpStatus.OK);
-    }
-    public ResponseEntity<BeerDto> getBeerList() {
+    private final BeerService beerService;
 
+    public BeerController(BeerService beerService) {
+        this.beerService = beerService;
+    }
+
+    @GetMapping("/{beerId}")
+    public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId) {
+        return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
 }
