@@ -1,5 +1,6 @@
 package nich.mihai.msscbrewery.web.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import nich.mihai.msscbrewery.services.BeerService;
 import nich.mihai.msscbrewery.web.model.BeerDto;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/beer")
 public class BeerController {
@@ -46,5 +48,6 @@ public class BeerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBeer(@PathVariable("beerId") UUID beerId) {
         beerService.deleteById(beerId);
+        log.debug("Deleting beer..." + beerId.toString());
     }
 }
